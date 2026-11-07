@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ownership quiz</title>
+<style>
+:root{color-scheme:light dark;--paper:#faf9f5;--card:#fff;--sunk:#f0eee6;--ink:#20201d;--muted:#68675f;--line:#dcd9cf;--accent:#ac4f32;--soft:#f6e7df;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--paper:#262624;--card:#30302e;--sunk:#1f1e1d;--ink:#faf9f5;--muted:#c2c0b6;--line:#56554f;--accent:#e99b80;--soft:#46302a}}
+*{box-sizing:border-box}body{margin:0;padding:52px 22px 150px;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,sans-serif}header,main{max-width:740px;margin:auto}h1{font:500 clamp(28px,4.4vw,38px)/1.16 Georgia,serif;margin:0 0 16px;text-wrap:balance}h2{font:500 25px/1.25 Georgia,serif;margin:0 0 14px}p{margin:0 0 14px}.muted,small{color:var(--muted)}.meta{font:12px/1.6 var(--mono);overflow-wrap:anywhere}.intro{margin:24px 0 32px;padding:18px 20px;border:1px solid var(--line);border-radius:10px;background:var(--card)}.intro p:last-child{margin:0}details.question{border-top:1px solid var(--line);padding:0 0 4px}summary{cursor:pointer}details.question>summary{list-style:none;display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:center;padding:22px 0}summary::-webkit-details-marker{display:none}.number{font:13px var(--mono);color:var(--accent)}.topic{font-size:16px;font-weight:600}.state{font-size:12px;color:var(--muted)}.state::after{content:' +';font-size:17px}details[open] .state::after{content:' −'}.body{padding:2px 0 26px 42px}.prompt{font-size:19px;line-height:1.5;margin-bottom:20px}label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}textarea,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px}textarea{width:100%;min-height:130px;resize:vertical;padding:13px 14px;display:block}textarea[readonly]{background:var(--sunk)}select{padding:9px 12px;max-width:100%}button{font:500 14px/1.4 system-ui;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 15px;cursor:pointer}button:hover{border-color:var(--accent)}button:disabled{opacity:.45;cursor:default}.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}.confidence{margin:16px 0}.evidence{margin:22px 0 18px;border-left:2px solid var(--accent);padding-left:16px}.evidence>summary{font-size:14px;color:var(--accent);font-weight:600}.source{border:1px solid var(--line);border-radius:8px;margin-top:14px;overflow:hidden}.source-label{padding:8px 12px;background:var(--sunk);font:12px var(--mono);overflow-wrap:anywhere}pre{margin:0;padding:14px;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.7 var(--mono);background:var(--card)}.revision{margin-top:20px}.ownership{border-top:1px solid var(--line);margin-top:12px;padding-top:28px}.ownership select{width:100%}.bar{position:fixed;bottom:0;left:0;width:100%;background:var(--paper);border-top:1px solid var(--line);padding:16px 22px max(16px,env(safe-area-inset-bottom))}.bar-inner{max-width:740px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}.bar .row{margin:0}.progress{font:13px var(--mono)}dialog{color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;width:min(740px,calc(100% - 28px));max-height:90vh;padding:26px}dialog::backdrop{background:#0006}dialog textarea{height:36vh;font:12px/1.6 var(--mono)}.dialog-top{display:flex;justify-content:space-between;gap:14px;align-items:start;margin-bottom:10px}.notice{font-size:13px;margin-top:10px}button:focus-visible,summary:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:4px}[hidden]{display:none!important}@media(max-width:550px){body{padding:28px 18px 160px}.body{padding-left:0}.bar-inner{align-items:start;flex-direction:column}.bar .row{width:100%;justify-content:space-between}.topic{font-size:15px}.state{font-size:11px}details.question>summary{gap:6px;grid-template-columns:25px 1fr auto}dialog{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+<h1 id="title"></h1>
+<p id="scope" class="muted"></p>
+<p id="trigger" class="muted"></p>
+<details><summary class="meta">Change snapshot</summary><p id="snapshot" class="meta"></p></details>
+<div class="intro"><p>Explain the changes in your own words. Predict what happens and tell us why.</p><p class="muted">Save your first answer to reveal the evidence. Then refine your view. Your agent will review the reasoning when you return your response.</p></div>
+</header>
+<main>
+<div id="questions"></div>
+<section class="ownership" aria-labelledby="ownership-heading">
+<h2 id="ownership-heading">Would you put your name on it?</h2>
+<p class="muted">Choose after reflecting on your answers. This is your judgment; the agent still needs to review your reasoning.</p>
+<label for="ownership">Your position</label>
+<select id="ownership"><option value="">Choose when you're ready</option value="ready">I can explain and own these changes</option><option value="review">I want another review before deciding</option><option value="not-ready">I cannot own these changes yet</option></select>
+<label for="remaining" style="margin-top:18px">What still needs attention? <span class="muted">(optional)</span></label>
+<textarea id="remaining" placeholder="A gap, a concern, or the next thing you would investigate…"></textarea>
+<p id="storage" class="notice muted" role="status"></p>
+</section>
+</main>
+<div class="bar"><div class="bar-inner"><span id="progress" class="progress" aria-live="polite"></span><div class="row"><button id="next">Next question</button><button id="respond" class="primary">Respond</button></div></div></div>
+<dialog id="response-dialog" aria-labelledby="response-title">
+<div class="dialog-top"><h2 id="response-title">Return your reasoning</h2><button id="close" aria-label="Close response">Close</button></div>
+<p class="muted">Copy this response and paste it into your agent chat, or download it and attach the file. Nothing is sent automatically.</p>
+<p id="response-status" class="notice"></p>
+<label for="response-text">Your response</label><textarea id="response-text" readonly></textarea>
+<div class="row"><button id="copy" class="primary">Copy response</button><button id="download">Download response</button></div>
+<p id="copy-status" class="notice" role="status"></p>
+</dialog>
+<script type="application/json" id="quiz-data">__QUIZ_DATA__</script>
+<script>
+'use strict';
+const quiz=JSON.parse(document.getElementById('quiz-data').textContent);
+const $=id=>document.getElementById(id);
+const key='critical-thinking:'+quiz.quiz_id;
+const blank=()=>({ownership:'',remaining:'',answers:quiz.questions.map(q=>({id:q.id,first:'',confidence:'',locked:false,unknown:false,evidenceViewed:false,revised:''}))});
+let state=blank(), storageOK=true;
+try{const saved=JSON.parse(localStorage.getItem(key));if(saved&&Array.isArray(saved.answers)&&saved.answers.length===quiz.questions.length&&saved.answers.every((a,i)=>a.id===quiz.questions[i].id&&['first','confidence','revised'].every(k=>typeof a[k]==='string')&&['locked','unknown','evidenceViewed'].every(k=>typeof a[k]==='boolean'))&&typeof saved.remaining==='string'&&['','ready','review','not-ready'].includes(saved.ownership))state=saved;}catch(e){storageOK=false;}
+function storageMessage(){$('storage').textContent=storageOK?'Draft saved in this browser. Use Respond to return it to your agent.':'Browser storage is unavailable. Keep this page open and copy or download your response.';}
+function save(){try{localStorage.setItem(key,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}storageMessage();updateProgress();}
+function node(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
+$('title').textContent=quiz.title;document.title=quiz.title;$('scope').textContent=quiz.scope;$('trigger').textContent=quiz.trigger;$('snapshot').textContent=quiz.snapshot;
+const panels=[];
+function render(){
+ $('questions').replaceChildren();panels.length=0;
+ quiz.questions.forEach((q,i)=>{
+  const a=state.answers[i],panel=node('details','question');panel.open=i===state.answers.findIndex(x=>!x.locked);panel.id='question-'+i;
+  const summary=node('summary');summary.append(node('span','number',String(i+1).padStart(2,'0')),node('span','topic',q.topic),node('span','state',a.locked?'Answer saved':'Your view'));
+  const body=node('div','body'),prompt=node('p','prompt',q.prompt);body.append(prompt);
+  const label=node('label','',a.locked?'Your first answer · saved':'Your first answer');label.htmlFor='answer-'+i;
+  const answer=node('textarea');answer.id=label.htmlFor;answer.value=a.first;answer.readOnly=a.locked;answer.placeholder='What do you think happens, and why?';answer.addEventListener('input',()=>{a.first=answer.value;save();});body.append(label,answer);
+  const confidence=node('div','confidence'),cl=node('label','','How confident are you? (optional)');cl.htmlFor='confidence-'+i;const select=node('select');select.id=cl.htmlFor;
+  [['','Choose a confidence level'],['low','Tentative'],['medium','Somewhat confident'],['high','Confident']].forEach(([v,t])=>{const o=node('option','',t);o.value=v;select.append(o);});select.value=a.confidence;select.disabled=a.locked;select.onchange=()=>{a.confidence=select.value;save();};confidence.append(cl,select);body.append(confidence);
+  if(!a.locked){
+   const actions=node('div','row'),lock=node('button','primary','Save answer & see evidence'),unknown=node('button','','I don’t know yet');
+   function commit(unsure){if(!unsure&&!a.first.trim()){answer.setCustomValidity('Write your reasoning, or choose “I don’t know yet”.');answer.reportValidity();answer.oninput=()=>answer.setCustomValidity('');return;}a.locked=true;a.unknown=unsure;if(unsure&&!a.first.trim())a.first="I don't know yet.";a.evidenceViewed=true;save();render();panels.forEach(p=>p.open=false);panels[i].open=true;panels[i].querySelector('.evidence').open=true;panels[i].querySelector('.revision textarea').focus();}
+   lock.onclick=()=>commit(false);unknown.onclick=()=>commit(true);actions.append(lock,unknown);body.append(actions);
+  }else{
+   const evidence=node('details','evidence');evidence.append(node('summary','','Evidence · inspect what supports the change'));
+   q.evidence.forEach(e=>{const box=node('div','source');box.append(node('div','source-label',e.label),node('pre','',e.text));evidence.append(box);});
+   evidence.addEventListener('toggle',()=>{if(evidence.open&&!a.evidenceViewed){a.evidenceViewed=true;save();}});body.append(evidence);
+   const revised=node('div','revision'),rl=node('label','','Your revised view');rl.htmlFor='revised-'+i;const rt=node('textarea');rt.id=rl.htmlFor;rt.value=a.revised;rt.placeholder='What changed your mind? If your view holds, explain how the evidence supports it.';rt.oninput=()=>{a.revised=rt.value;save();};revised.append(rl,rt);body.append(revised);
+  }
+  panel.append(summary,body);$('questions').append(panel);panels.push(panel);
+ });updateProgress();
+}
+function updateProgress(){const n=state.answers.filter(a=>a.locked).length;$('progress').textContent=n+' / '+quiz.questions.length+' first answers saved';$('next').textContent=n===quiz.questions.length?'Your ownership decision':(quiz.questions.length-n)+' to answer';}
+$('next').onclick=()=>{const i=state.answers.findIndex(a=>!a.locked);if(i<0){$('ownership').scrollIntoView({block:'center'});$('ownership').focus();return;}panels.forEach((p,j)=>p.open=j===i);panels[i].scrollIntoView({block:'start'});panels[i].querySelector('textarea').focus({preventScroll:true});};
+$('ownership').value=state.ownership;$('ownership').onchange=()=>{state.ownership=$('ownership').value;save();};$('remaining').value=state.remaining;$('remaining').oninput=()=>{state.remaining=$('remaining').value;save();};
+function response(){return {type:'critical-thinking-ownership-response',quiz_id:quiz.quiz_id,title:quiz.title,snapshot:quiz.snapshot,status:'Awaiting agent assessment',ownership:state.ownership||'Not selected',remaining:state.remaining,unanswered:state.answers.filter(a=>!a.locked).map(a=>a.id),answers:quiz.questions.map((q,i)=>({question_id:q.id,question:q.prompt,first_answer:state.answers[i].first,first_answer_saved:state.answers[i].locked,initial_confidence:state.answers[i].confidence||'Not selected',unsure:state.answers[i].unknown,evidence_viewed:state.answers[i].evidenceViewed,revised_view:state.answers[i].revised}))};}
+$('respond').onclick=()=>{const r=response();$('response-text').value=JSON.stringify(r,null,2);$('response-status').textContent=r.unanswered.length?'Partial response · '+r.unanswered.length+' unanswered. No assessment yet.':(!state.ownership?'All first answers saved · ownership position not selected. No assessment yet.':'Ready to return · awaiting your agent’s assessment.');$('copy-status').textContent='';$('response-dialog').showModal();};
+$('close').onclick=()=>$('response-dialog').close();
+$('copy').onclick=async()=>{try{await navigator.clipboard.writeText($('response-text').value);$('copy-status').textContent='Copied. Paste this into your agent chat.';}catch(e){$('response-text').focus();$('response-text').select();$('copy-status').textContent='Select and copy the response above, or use Download response.';}};
+$('download').onclick=()=>{const url=URL.createObjectURL(new Blob([$('response-text').value],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='ownership-response-'+quiz.quiz_id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+render();storageMessage();
+</script>
+</body>
+</html>

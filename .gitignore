@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+# Local quiz artifacts and responses may contain project details.
+/ownership-quiz.html
+/ownership-quiz.json
+/ownership-quiz-preview.png
+/ownership-response-*.json

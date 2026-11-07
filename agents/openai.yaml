@@ -1,0 +1,4 @@
+interface:
+  display_name: "critical-thinking-addy-osmani"
+  short_description: "Practice judgment and own changes with a visual quiz"
+  default_prompt: "Use $critical-thinking-addy-osmani to challenge my reasoning at the current stage of this development task."
