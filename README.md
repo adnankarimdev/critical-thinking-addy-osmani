@@ -1,5 +1,7 @@
 # critical-thinking-addy-osmani
 
+> **Based on [Addy Osmani’s article on X](https://x.com/addyosmani/status/2117512471930167377).** This is an independent implementation of the ideas in that article, not an official Addy Osmani project or an endorsement.
+
 An agent skill for practicing developer judgment before, during, and after implementation, inspired by Addy Osmani's writing on critical thinking in agentic workflows.
 
 The core loop is **your view → the agent's evidence or challenge → your revised view**.

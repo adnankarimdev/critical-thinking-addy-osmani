@@ -5,6 +5,8 @@ description: Practice developer judgment throughout agent-assisted development. 
 
 # critical-thinking-addy-osmani
 
+> **Based on [Addy Osmani’s article on X](https://x.com/addyosmani/status/2117512471930167377).** This is an independent implementation of the ideas in that article, not an official Addy Osmani project or an endorsement.
+
 Help the developer form, test, and revise their own judgment while delegating execution. This is one continuous skill with three stages, inspired by the user-supplied Addy Osmani article about maintaining critical thinking in agentic workflows. Preserve all eight principles below and apply them at relevant moments.
 
 ## The thinking loop
