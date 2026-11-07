@@ -16,7 +16,15 @@ When active, the skill instructs the agent to prepare the quiz when work is cons
 
 The quiz preserves initial answers, reveals evidence, and invites revised reasoning. Use **Respond** to copy or download the response and return it to the agent for assessment. The HTML page does not automatically grade answers or send them anywhere.
 
-## Install in Codex
+## Install with the skills CLI
+
+```sh
+npx skills add adnankarimdev/critical-thinking-addy-osmani
+```
+
+Follow the prompts to choose your coding agent. While this repository is private, installation requires GitHub access to it.
+
+## Install manually in Codex
 
 Clone this private repository into your Codex skills directory:
 
